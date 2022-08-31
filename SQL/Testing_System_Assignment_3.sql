@@ -9,17 +9,18 @@ SELECT department_id  FROM department WHERE department_name='sale';
 select * from `account` where length(full_name) = ( select max(length(full_name)) from `account`);
 
  -- Question 5: Lấy ra thông tin account có full name dài nhất và thuộc phòng ban có id = 3;
- 
- select * from `account` where length(full_name) = ( select max(length(full_name)) from `account`) and department_id =3;
+ WITH CTE_DEP1 AS (SELECT * FROM `account` WHERE department_id =3)
+ select * from `CTE_DEP1` where length(full_name) = ( select max(length(full_name)) from CTE_DEP1)
+ order by full_name;
 
 -- Question 6: Lấy ra tên group đã tham gia trước ngày 20/12/2019;
  select*  from `group_account` where join_date < '2019/12/20';
  
 -- Question 7: Lấy ra ID của question có >= 4 câu trả lời 
- select count(*) from answer group by question_id having count(answer_id) >=4;
+ select * from answer group by question_id having count(question_id) >=4;
  
  -- Question 8: Lấy ra các mã đề thi có thời gian thi >= 60 phút và được tạo trước ngày 20/12/2019 
- select exam_id from exam where duration >=60 and create_date < '2019/12/20';
+ select * from exam where duration >=60 and create_date < '2019/12/20';
  
  -- Question 9: Lấy ra 5 group được tạo gần đây nhất;
 select create_date from  `groups` order by create_date desc limit 5;
@@ -28,7 +29,7 @@ select create_date from  `groups` order by create_date desc limit 5;
 select count(*) from `account`   where department_id=2;
 
 -- Question 11: Lấy ra nhân viên có tên bắt đầu bằng chữ "D" và kết thúc bằng chữ "o"
-select * from `account` where full_name like 'D%'and '%o';
+select * from `account` where full_name like 'D%o';
 
 --  Question 12: Xóa tất cả các exam được tạo trước ngày 20/12/2019
 delete from `exam` where create_date <'2019/12/20';
